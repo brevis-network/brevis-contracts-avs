@@ -25,6 +25,12 @@ contract BrevisProof is Ownable {
         smtContract = _smtContract;
     }
 
+    // this is only to be called by Proxy via delegateCall as initOwner will require _owner is 0
+    function init(ISMT _smtContract) external {
+        initOwner();
+        smtContract = _smtContract;
+    }
+
     // zk proof
     function submitProof(
         uint64 _chainId,

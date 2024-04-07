@@ -58,6 +58,18 @@ contract BrevisRequest is FeeVault {
         brevisEigen = _brevisEigen;
     }
 
+    // this is only to be called by Proxy via delegateCall as initOwner will require _owner is 0
+    function init(
+        address _feeCollector,
+        IBrevisProof _brevisProof,
+        IBrevisEigen _brevisEigen
+    ) external {
+        initOwner();
+        feeCollector = _feeCollector;
+        brevisProof = _brevisProof;
+        brevisEigen = _brevisEigen;
+    }
+
     function setBrevisEigen(IBrevisEigen _brevisEigen) external onlyOwner {
         brevisEigen = _brevisEigen;
     }
