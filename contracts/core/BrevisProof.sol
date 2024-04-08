@@ -31,11 +31,16 @@ contract BrevisProof is Ownable {
         smtContract = _smtContract;
     }
 
+    modifier onlyBrevisRequest() {
+        require(brevisRequest == msg.sender, "not brevisRequest");
+        _;
+    }
+
     // zk proof
     function submitProof(
         uint64 _chainId,
         bytes calldata _proofWithPubInputs
-    ) external returns (bytes32 _requestId) {
+    ) external onlyBrevisRequest returns (bytes32 _requestId) {
         require(verifyRaw(_chainId, _proofWithPubInputs), "proof not valid");
         Brevis.ProofData memory data = unpackProofData(_proofWithPubInputs);
         _requestId = data.commitHash;
@@ -45,11 +50,6 @@ contract BrevisProof is Ownable {
         );
         proofs[_requestId].appCommitHash = data.appCommitHash; // save necessary fields only, to save gas
         proofs[_requestId].appVkHash = data.appVkHash;
-    }
-
-    modifier onlyBrevisRequest() {
-        require(brevisRequest == msg.sender, "not brevisRequest");
-        _;
     }
 
     // op/avs proof

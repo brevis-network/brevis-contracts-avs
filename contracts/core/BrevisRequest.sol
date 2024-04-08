@@ -220,9 +220,14 @@ contract BrevisRequest is FeeVault {
         brevisEigen.mustVerified(_requestIds);
 
         for (uint i = 0; i < _requestIds.length; i++) {
-            brevisProof.submitOpResult(_requestIds[i]);
-            requests[_requestIds[i]].status = RequestStatus.OpSubmitted;
-            requestExts[_requestIds[i]].canChallengeBefore =
+            bytes32 reqId = _requestIds[i];
+            require(
+                !IBrevisProof(brevisProof).hasProof(reqId),
+                "proof already generated"
+            );
+            brevisProof.submitOpResult(reqId);
+            requests[reqId].status = RequestStatus.OpSubmitted;
+            requestExts[reqId].canChallengeBefore =
                 block.timestamp +
                 challengeWindow;
         }
