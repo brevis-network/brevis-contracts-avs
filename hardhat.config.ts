@@ -24,6 +24,9 @@ const bscTestPrivateKey = process.env.BSC_TEST_PRIVATE_KEY || DEFAULT_PRIVATE_KE
 const avalancheTestEndpoint = process.env.AVALANCHE_TEST_ENDPOINT || DEFAULT_ENDPOINT;
 const avalancheTestPrivateKey = process.env.AVALANCHE_TEST_PRIVATE_KEY || DEFAULT_PRIVATE_KEY;
 
+const ethMainnetEndpoint = process.env.ETH_MAINNET_ENDPOINT || DEFAULT_ENDPOINT;
+const ethMainnetPrivateKey = process.env.ETH_MAINNET_PRIVATE_KEY || DEFAULT_PRIVATE_KEY;
+
 const config: HardhatUserConfig = {
   defaultNetwork: 'hardhat',
   networks: {
@@ -47,6 +50,10 @@ const config: HardhatUserConfig = {
     avalancheTest: {
       url: avalancheTestEndpoint,
       accounts: [`0x${avalancheTestPrivateKey}`]
+    },
+    ethMainnet: {
+      url: ethMainnetEndpoint,
+      accounts: [`0x${ethMainnetPrivateKey}`]
     }
   },
   namedAccounts: {
@@ -78,7 +85,8 @@ const config: HardhatUserConfig = {
       goerli: process.env.ETHERSCAN_API_KEY as string,
       sepolia: process.env.ETHERSCAN_API_KEY as string,
       bscTestnet: process.env.BSCSCAN_API_KEY as string,
-      avalancheFujiTestnet: process.env.SNOWTRACE_API_KEY as string
+      avalancheFujiTestnet: process.env.SNOWTRACE_API_KEY as string,
+      mainnet: process.env.ETHERSCAN_API_KEY || '',
     }
   }
 };
